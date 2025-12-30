@@ -27,16 +27,6 @@ router.post("/vote", async (req, res) => {
   }
 });
 
-// router.post("/vote", async (req, res) => {
-//   try {
-//     const vote = new Vote(req.body);
-//     await vote.save();
-//     res.json({ message: "Vote submitted successfully" });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
 /* PARTY-WISE RESULT */
 router.get("/results/party", async (req, res) => {
   const data = await Vote.aggregate([
