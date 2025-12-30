@@ -10,7 +10,8 @@ app.use(cors());
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Atlas connected"));
+  .then(() => console.log("MongoDB Atlas connected"))
+  .catch(err => console.error(err));
 
 app.use("/api", voteRoutes);
 
