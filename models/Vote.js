@@ -9,6 +9,7 @@ const voteSchema = new mongoose.Schema({
   },
   place: String,
   district: String,
+  constituency: String,
   party: String,
   createdAt: {
     type: Date,
