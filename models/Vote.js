@@ -5,10 +5,14 @@ const voteSchema = new mongoose.Schema({
   age: Number,
   mobile:{
     type: Number,
-    unique: true
+    unique: true,
+    index: true
   },
   place: String,
-  district: String,
+  district:{
+    type: String,
+    index: true
+  },
   constituency: String,
   party: String,
   createdAt: {
