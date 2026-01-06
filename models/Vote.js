@@ -8,7 +8,7 @@ const voteSchema = new mongoose.Schema({
     unique: true,
     index: true
   },
-  place: String,
+  // place: String,
   district:{
     type: String,
     index: true

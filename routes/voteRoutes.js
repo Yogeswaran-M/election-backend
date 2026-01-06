@@ -10,10 +10,10 @@ const router = express.Router();
 
 router.post("/vote", async (req, res) => {
   try {
-    const { name, age, district, party, mobile } = req.body;
+    const { name, age, district, constituency, party, mobile } = req.body;
 
-    if (!mobile) {
-      return res.status(400).json({ msg: "Mobile required" });
+    if (!mobile || !constituency) {
+      return res.status(400).json({ msg: "Mobile & Constituency required" });
     }
 
     // 🔥 FAST duplicate check
@@ -22,7 +22,7 @@ router.post("/vote", async (req, res) => {
       return res.status(409).json({ msg: "Already voted" });
     }
 
-    await Vote.create({ name, age, district, party, mobile });
+    await Vote.create({ name, age, district, constituency, party, mobile });
 
     res.json({ success: true });
 
