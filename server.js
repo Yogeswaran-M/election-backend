@@ -1,9 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import voteRoutes from "./routes/voteRoutes.js";
-import rateLimit from "express-rate-limit"
+import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
+import voteRoutes from "./routes/voteRoutes.js";
 
 dotenv.config();
 
@@ -18,24 +18,22 @@ const globalLimiter = rateLimit({
 });
 app.use(globalLimiter);
 
-// 🗳️ VOTE LIMIT
+// 🗳️ VOTE LIMIT (ONLY HERE)
 const voteLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
   max: 5,
   message: { error: "Too many vote attempts" }
 });
+
 app.use("/api/vote", voteLimiter, voteRoutes);
 
-// 🔥 MongoDB connect – optimized
+// 🔥 MongoDB connect
 const connectDB = async () => {
-  if (mongoose.connection.readyState === 1) {
-    console.log("Mongo already connected");
-    return;
-  }
+  if (mongoose.connection.readyState === 1) return;
 
   try {
     await mongoose.connect(process.env.MONGO_URI, {
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 5000
     });
     console.log("MongoDB Atlas connected");
   } catch (err) {
@@ -44,15 +42,12 @@ const connectDB = async () => {
   }
 };
 
-connectDB(); // ✅ only once
+connectDB();
 
-// 🔥 Health check (IMPORTANT for Render sleep)
+// ❤️ Health check
 app.get("/health", (req, res) => {
   res.send("OK");
 });
-
-// routes
-app.use("/api", voteRoutes);
 
 app.listen(5000, () => {
   console.log("Server running on port 5000");
