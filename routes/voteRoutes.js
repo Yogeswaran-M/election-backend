@@ -3,7 +3,7 @@ import Vote from "../models/Vote.js";
 
 const router = express.Router();
 
-router.post("/vote", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { name, age, mobile, district, constituency, party } = req.body;
 
