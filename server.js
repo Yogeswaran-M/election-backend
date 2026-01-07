@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import voteRoutes from "./routes/voteRoutes.js";
+import rateLimit from "express-rate-limit"
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -9,6 +10,21 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// 🌍 GLOBAL LIMIT
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+app.use(globalLimiter);
+
+// 🗳️ VOTE LIMIT
+const voteLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 5,
+  message: { error: "Too many vote attempts" }
+});
+app.use("/api/vote", voteLimiter, voteRoutes);
 
 // 🔥 MongoDB connect – optimized
 const connectDB = async () => {
