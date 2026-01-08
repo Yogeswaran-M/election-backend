@@ -12,6 +12,14 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ msg: "All fields required" });
     }
 
+    //Age specific message
+    if(age<18){
+      return res.status(400).json({
+        success:false,
+        error:"Age is must be 18 or above"
+      });
+    }
+
     // ✅ Mobile format check
     if (!/^[6-9]\d{9}$/.test(mobile)) {
       return res.status(400).json({ msg: "Invalid mobile number" });
